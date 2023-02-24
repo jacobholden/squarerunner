@@ -1,22 +1,28 @@
 ﻿#pragma once
-#include <SFML\Window.hpp>
-#include <SFML/Graphics/Drawable.hpp>
+#include <memory>
+#include <vector>
+#include "../Components/Component.h"
 
-#include "../Components/Updateable.h"
-
-class Entity : public sf::Drawable
-{
+class Entity {
 public:
-    Entity();
-    virtual ~Entity();
+    void add_component(std::unique_ptr<Component> component);
 
-protected:
-    void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
+    template <typename T>
+    T* get_component() const;
 
-public:
-    virtual void set_position(sf::Vector2f pos);
-    virtual sf::Vector2f GetPosition();
-
-protected:
-    sf::Vector2f position;
+private:
+    std::vector<std::unique_ptr<Component>> components_;
 };
+
+template <typename T>
+T* Entity::get_component() const
+{
+    for (const auto& component : components_)
+    {
+        if (auto t = dynamic_cast<T*>(component.get()))
+        {
+            return t;
+        }
+    }
+    return nullptr;
+}

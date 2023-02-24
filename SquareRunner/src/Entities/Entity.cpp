@@ -2,25 +2,7 @@
 
 #include <iostream>
 
-Entity::Entity()
+void Entity::add_component(std::unique_ptr<Component> component)
 {
-}
-
-Entity::~Entity()
-{
-    std::cout << "Deleted" << std::endl;
-}
-
-void Entity::draw(sf::RenderTarget& target, sf::RenderStates states) const
-{
-}
-
-void Entity::set_position(sf::Vector2f pos)
-{
-    position = pos;
-}
-
-sf::Vector2f Entity::GetPosition()
-{
-    return position;
+    components_.push_back(std::move(component));
 }

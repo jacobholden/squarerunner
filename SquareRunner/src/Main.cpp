@@ -1,9 +1,10 @@
 #include <SFML\Graphics.hpp>
 
+#include "Game.h"
+#include "Components/MyRender.h"
+#include "Components/MyTransform.h"
 #include "managers/InputManager.h"
-#include "managers/TextureManager.h"
-#include "scenes/GameScene.h"
-
+#include "Managers/TextureManager.h"
 
 const int WINDOW_WIDTH = 1280;
 const int WINDOW_HEIGHT = 736;
@@ -12,6 +13,45 @@ const sf::Time UPDATE_INTERVAL = sf::seconds(1.0f / TARGET_FPS);
 
 int main()
 {
+    // Define textures
+    TextureManager::define_texture("common/floor.png", "floor", true);
+    TextureManager::define_texture("common/wall.png", "wall");
+    TextureManager::define_texture("common/broken_wall.png", "broken_wall");
+    TextureManager::define_texture("common/dirt.png", "dirt");
+    TextureManager::define_texture("common/gold.png", "gold");
+    TextureManager::define_texture("common/safe_zone.png", "safe_zone");
+    TextureManager::define_texture("common/tnt.png", "tnt");
+    TextureManager::define_texture("player/player_left.png", "player_left");
+    TextureManager::define_texture("player/player_right.png", "player_right");
+    TextureManager::define_texture("player/player_up.png", "player_up");
+    TextureManager::define_texture("player/player_down.png", "player_down");
+    
+    Game game;
+
+    // Create an entity with a transform and a sprite
+    auto entity = game.create_entity();
+    auto transform = std::make_unique<MyTransform>();
+    transform->position = sf::Vector2f(400.f, 300.f);
+    entity->add_component(std::move(transform));
+
+    // Sprite
+    auto sprite = std::make_unique<sf::Sprite>();
+    sprite->setTexture(*TextureManager::get_texture("player_up"));
+
+    // Render component
+    auto render = std::make_unique<MyRender>();
+    render->drawable = sprite.get();
+    entity->add_component(std::move(render));
+
+    // Add entity
+    game.render_system().add_entity(entity);
+
+    // Run the game
+    game.run();
+
+    return 0;
+
+    /*
     // Define textures
     TextureManager::define_texture("common/floor.png", "floor", true);
     TextureManager::define_texture("common/wall.png", "wall");
@@ -96,4 +136,5 @@ int main()
         
         renderWindow.display();
     }
+    */
 }
