@@ -3,6 +3,7 @@
 #include "Game.h"
 #include "Components/MyRender.h"
 #include "Components/MyTransform.h"
+#include "Entities/IEntityBlueprint.h"
 #include "managers/InputManager.h"
 #include "Managers/TextureManager.h"
 
@@ -27,24 +28,6 @@ int main()
     TextureManager::define_texture("player/player_down.png", "player_down");
     
     Game game;
-
-    // Create an entity with a transform and a sprite
-    auto entity = game.create_entity();
-    auto transform = std::make_unique<MyTransform>();
-    transform->position = sf::Vector2f(400.f, 300.f);
-    entity->add_component(std::move(transform));
-
-    // Sprite
-    auto sprite = std::make_unique<sf::Sprite>();
-    sprite->setTexture(*TextureManager::get_texture("player_up"));
-
-    // Render component
-    auto render = std::make_unique<MyRender>();
-    render->drawable = sprite.get();
-    entity->add_component(std::move(render));
-
-    // Add entity
-    game.render_system().add_entity(entity);
 
     // Run the game
     game.run();

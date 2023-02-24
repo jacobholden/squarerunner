@@ -1,4 +1,5 @@
 ﻿#pragma once
+#include <memory>
 #include <SFML/Graphics/Sprite.hpp>
 
 #include "Component.h"
@@ -6,5 +7,5 @@
 class MyRender : public Component
 {
 public:
-    sf::Drawable* drawable;
+    std::unique_ptr<sf::Drawable> drawable;
 };

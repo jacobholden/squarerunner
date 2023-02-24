@@ -8,14 +8,18 @@ void RenderSystem::update(float delta_time)
 {
     for (const auto& entity : entities_)
     {
-        auto render = entity->get_component<MyRender>();
-        auto transform = entity->get_component<MyTransform>();
-        auto transformable = dynamic_cast<sf::Transformable*>(render->drawable);
-        if (transformable)
+        const auto render = entity->get_component<MyRender>();
+        const auto transform = entity->get_component<MyTransform>();
+
+        if(render && transform)
         {
-            transformable->setPosition(transform->position);
-            transformable->setRotation(transform->rotation);
-            window_->draw(*render->drawable);
+            const auto transformable = dynamic_cast<sf::Transformable*>(render->drawable.get());
+            if (transformable)
+            {
+                transformable->setPosition(transform->position);
+                transformable->setRotation(transform->rotation);
+                window_->draw(*render->drawable);
+            }
         }
     }
 }

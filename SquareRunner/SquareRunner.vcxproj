@@ -161,7 +161,9 @@
     <ClCompile Include="src\Components\Component.cpp" />
     <ClCompile Include="src\Components\MyTransform.cpp" />
     <ClCompile Include="src\Components\MyRender.cpp" />
+    <ClCompile Include="src\Entities\Blueprints\PlayerBlueprint.cpp" />
     <ClCompile Include="src\Entities\Entity.cpp" />
+    <ClCompile Include="src\Entities\IEntityBlueprint.cpp" />
     <ClCompile Include="src\Game.cpp" />
     <ClCompile Include="src\Main.cpp">
       <RuntimeLibrary>MultiThreadedDebugDll</RuntimeLibrary>
@@ -239,7 +241,9 @@
     <ClInclude Include="src\Components\Component.h" />
     <ClInclude Include="src\Components\MyTransform.h" />
     <ClInclude Include="src\Components\MyRender.h" />
+    <ClInclude Include="src\Entities\Blueprints\PlayerBlueprint.h" />
     <ClInclude Include="src\Entities\Entity.h" />
+    <ClInclude Include="src\Entities\IEntityBlueprint.h" />
     <ClInclude Include="src\Game.h" />
     <ClInclude Include="src\Managers\InputManager.h" />
     <ClInclude Include="src\Managers\TextureManager.h" />
