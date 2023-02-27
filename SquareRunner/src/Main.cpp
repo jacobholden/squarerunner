@@ -7,11 +7,6 @@
 #include "managers/InputManager.h"
 #include "Managers/TextureManager.h"
 
-const int WINDOW_WIDTH = 1280;
-const int WINDOW_HEIGHT = 736;
-const int TARGET_FPS = 60;
-const sf::Time UPDATE_INTERVAL = sf::seconds(1.0f / TARGET_FPS);
-
 int main()
 {
     // Define textures

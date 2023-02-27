@@ -1,6 +1,7 @@
 ﻿#pragma once
+#include "Component.h"
 
-class System
+class IUpdateable : public Component
 {
 public:
     virtual void update(float delta_time) = 0;

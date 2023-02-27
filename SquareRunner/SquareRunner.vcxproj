@@ -159,8 +159,11 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\Components\Component.cpp" />
+    <ClCompile Include="src\Components\IUpdateable.cpp" />
     <ClCompile Include="src\Components\MyTransform.cpp" />
     <ClCompile Include="src\Components\MyRender.cpp" />
+    <ClCompile Include="src\Components\Player\PlayerController.cpp" />
+    <ClCompile Include="src\Entities\Blueprints\BackgroundBlueprint.cpp" />
     <ClCompile Include="src\Entities\Blueprints\PlayerBlueprint.cpp" />
     <ClCompile Include="src\Entities\Entity.cpp" />
     <ClCompile Include="src\Entities\IEntityBlueprint.cpp" />
@@ -234,26 +237,28 @@
     </ClCompile>
     <ClCompile Include="src\Managers\InputManager.cpp" />
     <ClCompile Include="src\Managers\TextureManager.cpp" />
-    <ClCompile Include="src\RenderSystem.cpp" />
-    <ClCompile Include="src\System.cpp" />
+    <ClCompile Include="src\Scenes\IScene.cpp" />
+    <ClCompile Include="src\Scenes\LevelScene.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Components\Component.h" />
+    <ClInclude Include="src\Components\IUpdateable.h" />
     <ClInclude Include="src\Components\MyTransform.h" />
     <ClInclude Include="src\Components\MyRender.h" />
+    <ClInclude Include="src\Components\Player\PlayerController.h" />
+    <ClInclude Include="src\Entities\Blueprints\BackgroundBlueprint.h" />
     <ClInclude Include="src\Entities\Blueprints\PlayerBlueprint.h" />
     <ClInclude Include="src\Entities\Entity.h" />
     <ClInclude Include="src\Entities\IEntityBlueprint.h" />
     <ClInclude Include="src\Game.h" />
     <ClInclude Include="src\Managers\InputManager.h" />
     <ClInclude Include="src\Managers\TextureManager.h" />
-    <ClInclude Include="src\RenderSystem.h" />
-    <ClInclude Include="src\System.h" />
+    <ClInclude Include="src\Scenes\IScene.h" />
+    <ClInclude Include="src\Scenes\LevelScene.h" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="src\Entities\Environment" />
     <Folder Include="src\Entities\Player" />
-    <Folder Include="src\Scenes" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

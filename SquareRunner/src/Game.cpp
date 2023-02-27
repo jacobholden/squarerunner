@@ -2,24 +2,33 @@
 
 #include <SFML/Window/Event.hpp>
 
+#include "Components/IUpdateable.h"
 #include "Components/MyRender.h"
 #include "Components/MyTransform.h"
-#include "Entities/Blueprints/PlayerBlueprint.h"
+#include "Managers/InputManager.h"
 #include "Managers/TextureManager.h"
+#include "Scenes/LevelScene.h"
+
+const int WINDOW_WIDTH = 1280;
+const int WINDOW_HEIGHT = 736;
+const int TARGET_FPS = 60;
+const sf::Time UPDATE_INTERVAL = sf::seconds(1.0f / TARGET_FPS);
 
 Game::Game()
 {
-    window_.create(sf::VideoMode(800, 600), "SFML ECS Example");
-    render_system_.set_window(&window_);
+    window_.create(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "Square Runner");
+}
+
+void Game::load_scene(IScene* level_scene)
+{
+    scene_ = level_scene;
 }
 
 void Game::run()
 {
-    // Create an entity with a transform and a sprite
-    auto entity = create_entity(new PlayerBlueprint);
+    auto level_scene = new LevelScene(WINDOW_WIDTH, WINDOW_HEIGHT);
 
-    // Add entity
-    render_system().add_entity(entity);
+    load_scene(level_scene);
     
     sf::Clock clock;
     while (window_.isOpen())
@@ -29,47 +38,71 @@ void Game::run()
         sf::Event event;
         while (window_.pollEvent(event))
         {
-            if (event.type == sf::Event::Closed)
+            switch (event.type)
             {
+            case sf::Event::Closed:
                 window_.close();
+                break;
+            case sf::Event::LostFocus:
+                break;
+            case sf::Event::GainedFocus:
+                break;
+            case sf::Event::KeyPressed:
+                InputManager::get_instance().set_key_pressed(event.key.code, true);
+                break;
+            case sf::Event::KeyReleased:
+                InputManager::get_instance().set_key_pressed(event.key.code, false);
+                break;
+            case sf::Event::MouseWheelMoved:
+                break;
+            case sf::Event::MouseWheelScrolled:
+                break;
+            case sf::Event::MouseButtonPressed:
+                // game->on_mouse_button(event.mouseButton);
+                break;
+            case sf::Event::MouseButtonReleased:
+                break;
+            case sf::Event::MouseMoved:
+                // game->on_mouse_move(event.mouseMove);
+                break;
+            case sf::Event::MouseEntered:
+                break;
+            case sf::Event::MouseLeft:
+                break;
             }
         }
 
         window_.clear(sf::Color::Black);
 
-        render_system_.update(delta_time);
+        update_and_render(delta_time);
 
         window_.display();
     }
 }
 
-Entity* Game::create_entity()
+void Game::update_and_render(float delta_time)
 {
-    entities_.emplace_back(new Entity);
-    return entities_.back().get();
-}
-
-Entity* Game::create_entity(IEntityBlueprint* entity_blueprint)
-{
-    Entity* entity = new Entity;
-
-    // Build the entity blueprint
-    entity_blueprint->build_blueprint();
-
-    // Add components to the entity
-    for (auto& component : entity_blueprint->components_)
+    for (const auto& entity : scene_->get_entities())
     {
-        entity->add_component(std::move(component));
+        const auto updateable = entity->get_component<IUpdateable>();
+
+        if(updateable)
+        {
+            updateable->update(delta_time);
+        }
+        
+        const auto render = entity->get_component<MyRender>();
+        const auto transform = entity->get_component<MyTransform>();
+    
+        if(render && transform)
+        {
+            const auto transformable = dynamic_cast<sf::Transformable*>(render->drawable.get());
+            if (transformable)
+            {
+                transformable->setPosition(transform->position);
+                transformable->setRotation(transform->rotation);
+                window_.draw(*render->drawable);
+            }
+        }
     }
-
-    // Add the entity to the game's list of entities
-    entities_.emplace_back(std::unique_ptr<Entity>(entity));
-
-    // Return the created entity
-    return entity;
-}
-
-RenderSystem& Game::render_system()
-{
-    return render_system_;
 }
