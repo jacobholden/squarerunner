@@ -1,5 +1,6 @@
 ﻿#include "PlayerBlueprint.h"
 
+#include "../../Components/Animator.h"
 #include "../../Components/MyRender.h"
 #include "../../Components/MyTransform.h"
 #include "../../Components/Player/PlayerController.h"
@@ -20,5 +21,6 @@ void PlayerBlueprint::build_blueprint()
     {
         component.drawable = std::make_unique<sf::Sprite>(*TextureManager::get_texture("player_up"));
     });
+    add_component<Animator>();
     add_component<PlayerController>();
 }

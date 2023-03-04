@@ -84,11 +84,14 @@ void Game::update_and_render(float delta_time)
 {
     for (const auto& entity : scene_->get_entities())
     {
-        const auto updateable = entity->get_component<IUpdateable>();
+        const auto updateables = entity->get_components<IUpdateable>();
 
-        if(updateable)
+        for (auto updateable : updateables)
         {
-            updateable->update(delta_time);
+            if(updateable)
+            {
+                updateable->update(delta_time);
+            }
         }
         
         const auto render = entity->get_component<MyRender>();

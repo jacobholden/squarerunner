@@ -9,6 +9,8 @@ public:
 
     template <typename T>
     T* get_component() const;
+    template <class T>
+    std::vector<T*> get_components() const;
 
 private:
     std::vector<std::unique_ptr<Component>> components_;
@@ -25,4 +27,20 @@ T* Entity::get_component() const
         }
     }
     return nullptr;
+}
+
+template <typename T>
+std::vector<T*> Entity::get_components() const
+{
+    std::vector<T*> components;
+
+    for (const auto& component : components_)
+    {
+        if (auto t = dynamic_cast<T*>(component.get()))
+        {
+            components.push_back(t);
+        }
+    }
+
+    return components;
 }
