@@ -11,6 +11,7 @@ public:
     T* get_component() const;
     template <class T>
     std::vector<T*> get_components() const;
+    std::vector<Component*> get_components() const;
 
 private:
     std::vector<std::unique_ptr<Component>> components_;

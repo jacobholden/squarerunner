@@ -6,6 +6,7 @@
 
 #include "../Components/Player/PlayerController.h"
 #include "../Entities/Blueprints/BackgroundBlueprint.h"
+#include "../Entities/Blueprints/EnemyBlueprint.h"
 #include "../Entities/Environment/WallBlueprint.h"
 
 LevelScene::LevelScene(int width, int height): IScene(width, height)
@@ -61,8 +62,11 @@ bool LevelScene::load_level(std::string level_name)
             }
             else if(c == 'P')
             {
-                auto player = create_entity(new PlayerBlueprint(position));
-                // player->get_component<PlayerController>()->set_non_walkable_tiles(non_walkable_tiles_);
+                create_entity(new PlayerBlueprint(position));
+            }
+            else if(c == 'E')
+            {
+                create_entity(new EnemyBlueprint(position));
             }
 
             x ++;

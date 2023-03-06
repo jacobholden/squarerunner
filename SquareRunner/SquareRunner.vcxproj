@@ -160,11 +160,13 @@
   <ItemGroup>
     <ClCompile Include="src\Components\Animator.cpp" />
     <ClCompile Include="src\Components\Component.cpp" />
+    <ClCompile Include="src\Components\FrameSequenceAnimation.cpp" />
     <ClCompile Include="src\Components\IUpdateable.cpp" />
     <ClCompile Include="src\Components\MyTransform.cpp" />
     <ClCompile Include="src\Components\MyRender.cpp" />
     <ClCompile Include="src\Components\Player\PlayerController.cpp" />
     <ClCompile Include="src\Entities\Blueprints\BackgroundBlueprint.cpp" />
+    <ClCompile Include="src\Entities\Blueprints\EnemyBlueprint.cpp" />
     <ClCompile Include="src\Entities\Blueprints\PlayerBlueprint.cpp" />
     <ClCompile Include="src\Entities\Entity.cpp" />
     <ClCompile Include="src\Entities\Environment\WallBlueprint.cpp" />
@@ -245,11 +247,13 @@
   <ItemGroup>
     <ClInclude Include="src\Components\Animator.h" />
     <ClInclude Include="src\Components\Component.h" />
+    <ClInclude Include="src\Components\FrameSequenceAnimation.h" />
     <ClInclude Include="src\Components\IUpdateable.h" />
     <ClInclude Include="src\Components\MyTransform.h" />
     <ClInclude Include="src\Components\MyRender.h" />
     <ClInclude Include="src\Components\Player\PlayerController.h" />
     <ClInclude Include="src\Entities\Blueprints\BackgroundBlueprint.h" />
+    <ClInclude Include="src\Entities\Blueprints\EnemyBlueprint.h" />
     <ClInclude Include="src\Entities\Blueprints\PlayerBlueprint.h" />
     <ClInclude Include="src\Entities\Entity.h" />
     <ClInclude Include="src\Entities\Environment\WallBlueprint.h" />
@@ -261,7 +265,7 @@
     <ClInclude Include="src\Scenes\LevelScene.h" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="src\Entities\Player" />
+    <Folder Include="src\Entities\Enemy" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

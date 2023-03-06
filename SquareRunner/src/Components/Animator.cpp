@@ -59,6 +59,11 @@ bool Animator::is_playing()
     return is_playing_;
 }
 
+void Animator::on_awake()
+{
+    IUpdateable::on_awake();
+}
+
 void Animator::reset()
 {
     is_playing_ = false;

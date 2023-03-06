@@ -8,4 +8,5 @@ class MyRender : public Component
 {
 public:
     std::unique_ptr<sf::Drawable> drawable;
+    void on_awake() override;
 };

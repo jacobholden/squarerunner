@@ -8,4 +8,5 @@ class MyTransform : public Component
 public:
     sf::Vector2f position;
     float rotation;
+    void on_awake() override;
 };

@@ -29,6 +29,11 @@ Entity* IScene::create_entity(IEntityBlueprint* entity_blueprint)
         entity->add_component(std::move(component));
     }
 
+    for (auto& component : entity->get_components())
+    {
+        component->on_awake();
+    }
+
     // Add the entity to the game's list of entities
     entities_.emplace_back(std::unique_ptr<Entity>(entity));
     // Return the created entity

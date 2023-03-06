@@ -9,6 +9,7 @@ public:
     void translate_position(sf::Vector2f start_position, sf::Vector2f end_position, float duration);
     void update(float delta_time) override;
     bool is_playing();
+    void on_awake() override;
 
 private:
     void reset();

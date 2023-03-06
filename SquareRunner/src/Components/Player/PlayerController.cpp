@@ -65,3 +65,8 @@ void PlayerController::update(float delta_time)
 {
     handle_input();
 }
+
+void PlayerController::on_awake()
+{
+    IUpdateable::on_awake();
+}

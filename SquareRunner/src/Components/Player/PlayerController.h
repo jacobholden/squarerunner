@@ -16,6 +16,8 @@ public:
         non_walkable_tiles_ = tiles;
     }
 
+    void on_awake() override;
+
 private:
     std::map<int, sf::Texture> textures_ =
         {

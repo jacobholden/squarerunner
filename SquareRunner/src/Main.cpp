@@ -15,6 +15,10 @@ int main()
     TextureManager::define_texture("player/player_right.png", "player_right");
     TextureManager::define_texture("player/player_up.png", "player_up");
     TextureManager::define_texture("player/player_down.png", "player_down");
+    TextureManager::define_texture("enemy/enemy_left.png", "enemy_left");
+    TextureManager::define_texture("enemy/enemy_right.png", "enemy_right");
+    TextureManager::define_texture("enemy/enemy_up.png", "enemy_up");
+    TextureManager::define_texture("enemy/enemy_down.png", "enemy_down");
     
     Game game;
 
