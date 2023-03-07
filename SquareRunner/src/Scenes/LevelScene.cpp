@@ -4,6 +4,7 @@
 #include <iostream>
 #include <SFML/Graphics/Sprite.hpp>
 
+#include "../Components/Enemy/EnemyController.h"
 #include "../Components/Player/PlayerController.h"
 #include "../Entities/Blueprints/BackgroundBlueprint.h"
 #include "../Entities/Blueprints/EnemyBlueprint.h"
@@ -23,7 +24,14 @@ LevelScene::LevelScene(int width, int height): IScene(width, height)
 
         if(playerController)
         {
-            entity.get()->get_component<PlayerController>()->set_non_walkable_tiles(non_walkable_tiles_);   
+            playerController->set_non_walkable_tiles(non_walkable_tiles_);   
+        }
+
+        auto enemyController = entity.get()->get_component<EnemyController>();
+
+        if(enemyController)
+        {
+            enemyController->set_non_walkable_tiles(non_walkable_tiles_);   
         }
     }
 }

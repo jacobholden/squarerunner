@@ -13,6 +13,7 @@ public:
     float fps;
     int frame_count;
     void on_awake() override;
+    void initialize();
 
 private:
     float elapsed_time_ = 0;
@@ -26,5 +27,4 @@ private:
     int current_frame_;
     float time_until_next_frame_;
     sf::Sprite* sprite_;
-    void initialize();
 };

@@ -4,6 +4,8 @@
 #include "../../Components/MyRender.h"
 #include "../../Components/MyTransform.h"
 #include "../../Managers/TextureManager.h"
+#include "../../Components/Animator.h"
+#include "../../Components/Enemy/EnemyController.h"
 
 EnemyBlueprint::EnemyBlueprint(sf::Vector2f position)
 {
@@ -22,7 +24,9 @@ void EnemyBlueprint::build_blueprint()
     });
     add_component<FrameSequenceAnimation>([this](FrameSequenceAnimation& component)
     {
-        component.fps = 4;
+        component.fps = 12;
         component.frame_count = 4;
     });
+    add_component<Animator>();
+    add_component<EnemyController>();
 }
