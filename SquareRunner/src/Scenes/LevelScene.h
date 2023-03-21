@@ -1,6 +1,5 @@
 ﻿#pragma once
 #include <array>
-#include <map>
 
 #include "IScene.h"
 
@@ -10,9 +9,11 @@ public:
     LevelScene(int width, int height);
     ~LevelScene() override;
     bool load_level(std::string level_name);
-
     void on_mouse_button(const sf::Event::MouseButtonEvent& mouse_button) override;
+    void initialise_entities() override;
     void on_mouse_move(const sf::Event::MouseMoveEvent& mouse_move) override;
-
-    std::array<std::array<bool, 40>, 23> non_walkable_tiles_{};
+    void on_entity_destroyed(const std::unique_ptr<Entity>& entity) override;
+    
+    std::array<std::array<bool, 23>, 40> non_walkable_tiles_player_{};
+    std::array<std::array<bool, 23>, 40> non_walkable_tiles_enemy_{};
 };

@@ -9,14 +9,20 @@
 class PlayerController : public IUpdateable
 {
 public:
-    void handle_input();
+    void handle_movement_input();
+    void handle_bomb_input();
     void update(float delta_time) override;
-    void set_non_walkable_tiles(std::array<std::array<bool, 40>, 23> tiles)
+    void set_non_walkable_tiles(std::array<std::array<bool, 23>, 40> tiles)
     {
         non_walkable_tiles_ = tiles;
     }
 
+    ~PlayerController() override;
     void on_awake() override;
+    void add_bomb_count();
+    void add_gold_count();
+    void set_gold_target(int gold_target);
+    bool is_gold_target_reached();
 
 private:
     std::map<int, sf::Texture> textures_ =
@@ -27,5 +33,10 @@ private:
         {3, *TextureManager::get_texture("player_down")},
         };
 
-    std::array<std::array<bool, 40>, 23> non_walkable_tiles_{};
+    std::array<std::array<bool, 23>, 40> non_walkable_tiles_{};
+
+    bool is_space_held_ = false;
+    int bomb_count_ = 0;
+    int gold_count_ = 0;
+    int gold_target_ = 0;
 };

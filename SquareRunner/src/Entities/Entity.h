@@ -1,9 +1,11 @@
 ﻿#pragma once
 #include <memory>
+#include <string>
 #include <vector>
 #include "../Components/Component.h"
 
-class Entity {
+class Entity
+{
 public:
     void add_component(std::unique_ptr<Component> component);
 
@@ -12,6 +14,9 @@ public:
     template <class T>
     std::vector<T*> get_components() const;
     std::vector<Component*> get_components() const;
+    void destroy();
+    bool is_destroyed = false;
+    std::string name = "Entity";
 
 private:
     std::vector<std::unique_ptr<Component>> components_;

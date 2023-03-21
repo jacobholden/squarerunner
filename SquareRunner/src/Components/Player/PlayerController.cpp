@@ -5,11 +5,13 @@
 #include "../Animator.h"
 #include "../MyRender.h"
 #include "../MyTransform.h"
+#include "../../Game.h"
 #include "../../Entities/Entity.h"
+#include "../../Entities/Blueprints/BombIgnitedBlueprint.h"
 
 const float MOVEMENT_SPEED = 0.15f;
 
-void PlayerController::handle_input()
+void PlayerController::handle_movement_input()
 {
     auto animator = entity->get_component<Animator>();
 
@@ -61,12 +63,58 @@ void PlayerController::handle_input()
     }
 }
 
+void PlayerController::handle_bomb_input()
+{
+    if(bomb_count_ > 0 && sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && !is_space_held_)
+    {
+        auto current_position = entity->get_component<Animator>()->get_target_position();
+        
+        sf::Vector2f truncated_position = sf::Vector2f((int)current_position.x / 32 * 32, (int)current_position.y / 32 * 32);
+        
+        Game::get_current_scene()->create_entity(new BombIgnitedBlueprint(truncated_position));
+        is_space_held_ = true;
+
+        bomb_count_ --;
+    }
+    else if(!sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
+    {
+        is_space_held_ = false;
+    }
+}
+
 void PlayerController::update(float delta_time)
 {
-    handle_input();
+    handle_movement_input();
+
+    handle_bomb_input();
+}
+
+PlayerController::~PlayerController()
+{
+
 }
 
 void PlayerController::on_awake()
 {
     IUpdateable::on_awake();
+}
+
+void PlayerController::add_bomb_count()
+{
+    bomb_count_ ++;
+}
+
+void PlayerController::add_gold_count()
+{
+    gold_count_ ++;
+}
+
+void PlayerController::set_gold_target(int gold_target)
+{
+    gold_target_ = gold_target;
+}
+
+bool PlayerController::is_gold_target_reached()
+{
+    return gold_count_ >= gold_target_;
 }

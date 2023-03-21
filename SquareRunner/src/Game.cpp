@@ -1,7 +1,10 @@
 ﻿#include "Game.h"
 
+#include <iostream>
+#include <ostream>
 #include <SFML/Window/Event.hpp>
 
+#include "Components/CircleCollidier.h"
 #include "Components/IUpdateable.h"
 #include "Components/MyRender.h"
 #include "Components/MyTransform.h"
@@ -14,6 +17,8 @@ const int WINDOW_HEIGHT = 736;
 const int TARGET_FPS = 60;
 const sf::Time UPDATE_INTERVAL = sf::seconds(1.0f / TARGET_FPS);
 
+IScene* Game::scene_ = nullptr;
+
 Game::Game()
 {
     window_.create(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "Square Runner");
@@ -24,12 +29,25 @@ void Game::load_scene(IScene* level_scene)
     scene_ = level_scene;
 }
 
+void Game::handle_scene_switching()
+{
+    if(scene_ != nullptr)
+    {
+        if(!scene_->is_scene_running())
+        {
+            delete scene_;
+        }
+        else
+        {
+            return;
+        }
+    }
+    
+    load_scene(new LevelScene(WINDOW_WIDTH, WINDOW_HEIGHT));
+}
+
 void Game::run()
 {
-    auto level_scene = new LevelScene(WINDOW_WIDTH, WINDOW_HEIGHT);
-
-    load_scene(level_scene);
-    
     sf::Clock clock;
     while (window_.isOpen())
     {
@@ -74,6 +92,8 @@ void Game::run()
 
         window_.clear(sf::Color::Black);
 
+        handle_scene_switching();
+
         update_and_render(delta_time);
 
         window_.display();
@@ -82,11 +102,32 @@ void Game::run()
 
 void Game::update_and_render(float delta_time)
 {
-    for (const auto& entity : scene_->get_entities())
-    {
-        const auto updateables = entity->get_components<IUpdateable>();
+    scene_->initialise_entities();
+    
+    auto& entities = scene_->get_entities();
+    auto it = entities.begin();
 
-        for (auto updateable : updateables)
+    std::vector<ColliderStruct> collider_structs;
+
+    for (auto& entity : entities)
+    {
+        auto trans = entity.get()->get_component<MyTransform>();
+        auto circ = entity.get()->get_component<CircleCollidier>();
+        if(trans && circ)
+        {
+            collider_structs.push_back(ColliderStruct{entity.get(), *trans, *circ});
+        }
+    }
+
+    std::vector<MyRender*> renderables;
+    
+    while (it != entities.end())
+    {
+        const auto& entity = *it;
+        
+        auto updateables = entity->get_components<IUpdateable>();
+        
+        for (const auto updateable : updateables)
         {
             if(updateable)
             {
@@ -94,18 +135,82 @@ void Game::update_and_render(float delta_time)
             }
         }
         
-        const auto render = entity->get_component<MyRender>();
         const auto transform = entity->get_component<MyTransform>();
-    
-        if(render && transform)
+
+        if(transform)
         {
-            const auto transformable = dynamic_cast<sf::Transformable*>(render->drawable.get());
-            if (transformable)
+            const auto circle_collidier = entity->get_component<CircleCollidier>();
+            
+            if(circle_collidier && circle_collidier->is_awake)
             {
-                transformable->setPosition(transform->position);
-                transformable->setRotation(transform->rotation);
-                window_.draw(*render->drawable);
+                check_collision(entity.get(), collider_structs);
             }
+
+            // Remove destroyed entities
+            if (entity->is_destroyed)
+            {
+                get_current_scene()->on_entity_destroyed(entity);
+            
+                it = entities.erase(it);
+
+                continue;
+            }
+            else
+            {
+                ++it;
+            }
+
+            const auto render = entity->get_component<MyRender>();
+            
+            if(render)
+            {
+                const auto transformable = dynamic_cast<sf::Transformable*>(render->drawable.get());
+                if (transformable)
+                {
+                    transformable->setPosition(transform->position);
+                    transformable->setRotation(transform->rotation);
+
+                    renderables.push_back(render);
+                }
+            }
+        }
+    }
+
+    std::sort(renderables.begin(), renderables.end(),
+          [](MyRender* a, MyRender* b) { return a->z_order < b->z_order; });
+
+    for (const auto& renderable : renderables)
+    {
+        window_.draw(*renderable->drawable);
+    }
+}
+
+void Game::check_collision(Entity* src_entity, std::vector<ColliderStruct> collider_structs)
+{
+    for (auto& collider : collider_structs)
+    {
+        if(collider.entity->is_destroyed)
+        {
+            continue;
+        }
+        
+        if(src_entity == collider.entity)
+        {
+            continue;
+        }
+        
+        sf::Vector2f delta = src_entity->get_component<MyTransform>()->position - collider.my_transform.position;
+            
+        float distance = std::sqrt(delta.x * delta.x + delta.y * delta.y);
+        
+        auto circle_collidier_a = src_entity->get_component<CircleCollidier>();
+        
+        float radius_sum = circle_collidier_a->radius + collider.circle_collidier.radius;
+            
+        if (distance <= radius_sum)
+        {
+            circle_collidier_a->invoke_func(collider.entity);
+            collider.circle_collidier.invoke_func(src_entity);
         }
     }
 }

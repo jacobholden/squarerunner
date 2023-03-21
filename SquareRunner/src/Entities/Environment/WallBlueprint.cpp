@@ -2,6 +2,7 @@
 
 #include "../../Components/MyTransform.h"
 #include "../../Components/MyRender.h"
+#include "../../Components/NonWalkable.h"
 #include "../../Managers/TextureManager.h"
 
 WallBlueprint::WallBlueprint(sf::Vector2f position)
@@ -19,4 +20,5 @@ void WallBlueprint::build_blueprint()
     {
         component.drawable = std::make_unique<sf::Sprite>(*TextureManager::get_texture("wall"));
     });
+    add_component<NonWalkable>();
 }

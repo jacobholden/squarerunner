@@ -6,10 +6,12 @@
 class Animator : public IUpdateable
 {
 public:
+    ~Animator() override;
     void translate_position(sf::Vector2f start_position, sf::Vector2f end_position, float duration);
     void update(float delta_time) override;
     bool is_playing();
     void on_awake() override;
+    sf::Vector2f get_target_position();
 
 private:
     void reset();
@@ -20,7 +22,6 @@ private:
     sf::Vector2f current_position_;
     float elapsed_time_;
     float duration_;
-    sf::Vector2f duration;
 
     float distance_;
     float x_direction_;

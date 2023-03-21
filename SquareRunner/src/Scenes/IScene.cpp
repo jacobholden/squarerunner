@@ -6,6 +6,8 @@ IScene::IScene(int width, int height)
 
 IScene::~IScene()
 {
+    entities_.clear();
+    entities_to_create_.clear();
 }
 
 Entity* IScene::create_entity()
@@ -23,6 +25,9 @@ Entity* IScene::create_entity(IEntityBlueprint* entity_blueprint)
     // Build the entity blueprint
     entity_blueprint->build_blueprint();
 
+    // Set the name
+    entity->name = entity_blueprint->name;
+
     // Add components to the entity
     for (auto& component : entity_blueprint->components_)
     {
@@ -35,7 +40,7 @@ Entity* IScene::create_entity(IEntityBlueprint* entity_blueprint)
     }
 
     // Add the entity to the game's list of entities
-    entities_.emplace_back(std::unique_ptr<Entity>(entity));
+    entities_to_create_.emplace_back(std::unique_ptr<Entity>(entity));
     // Return the created entity
     return entity;
 }
@@ -43,4 +48,24 @@ Entity* IScene::create_entity(IEntityBlueprint* entity_blueprint)
 std::vector<std::unique_ptr<Entity>>& IScene::get_entities()
 {
     return entities_;
+}
+
+void IScene::initialise_entities()
+{
+    for (auto& entity : entities_to_create_)
+    {
+        entities_.push_back(std::move(entity));
+    }
+
+    entities_to_create_.clear();
+}
+
+void IScene::end_scene()
+{
+    scene_running_ = false;
+}
+
+bool IScene::is_scene_running()
+{
+    return scene_running_;
 }

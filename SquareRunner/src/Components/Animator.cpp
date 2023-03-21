@@ -64,9 +64,19 @@ void Animator::on_awake()
     IUpdateable::on_awake();
 }
 
+sf::Vector2f Animator::get_target_position()
+{
+    return end_position_;
+}
+
 void Animator::reset()
 {
     is_playing_ = false;
     
     elapsed_time_ = 0.f;
+}
+
+Animator::~Animator()
+{
+    // No dynamically allocated memory to clean-up.
 }

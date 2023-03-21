@@ -1,14 +1,13 @@
 ﻿#include "EnemyController.h"
 
-#include <iostream>
-
 #include "../Animator.h"
 #include "../FrameSequenceAnimation.h"
 #include "../MyRender.h"
 #include "../MyTransform.h"
 #include "../../Entities/Entity.h"
-
-const float MOVEMENT_SPEED = 0.25f;
+#include "../../Scenes/LevelScene.h"
+#include "../../Game.h"
+#include "../../Managers/SoundManager.h"
 
 void EnemyController::on_awake()
 {
@@ -60,9 +59,14 @@ void EnemyController::move()
 
     sf::Vector2f target_position = sf::Vector2f(current_position.x + current_direction_.x * 32, current_position.y + current_direction_.y * 32);
 
-    entity->get_component<Animator>()->translate_position(current_position, target_position, MOVEMENT_SPEED);
+    entity->get_component<Animator>()->translate_position(current_position, target_position, movement_speed);
 
     update_texture();
+}
+
+EnemyController::~EnemyController()
+{
+
 }
 
 void EnemyController::update_texture()

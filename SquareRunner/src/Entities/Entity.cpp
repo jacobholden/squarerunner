@@ -16,3 +16,8 @@ std::vector<Component*> Entity::get_components() const
     }
     return components;
 }
+
+void Entity::destroy()
+{
+    is_destroyed = true;
+}
