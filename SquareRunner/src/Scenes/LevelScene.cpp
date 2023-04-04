@@ -24,12 +24,12 @@
 #include "../Entities/Environment/TntBlueprint.h"
 #include "../Entities/Environment/WallBlueprint.h"
 
-LevelScene::LevelScene(int width, int height): IScene(width, height)
+LevelScene::LevelScene(int width, int height, std::string level_name): IScene(width, height)
 {
     // Create an entity with a transform and a sprite
     create_entity(new BackgroundBlueprint(sf::IntRect(0, 0, width, height)));
 
-    load_level("01");
+    load_level(level_name);
 }
 
 LevelScene::~LevelScene()

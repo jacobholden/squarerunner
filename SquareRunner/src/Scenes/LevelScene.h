@@ -6,7 +6,7 @@
 class LevelScene : public IScene
 {
 public:
-    LevelScene(int width, int height);
+    LevelScene(int width, int height, std::string level_name);
     ~LevelScene() override;
     bool load_level(std::string level_name);
     void on_mouse_button(const sf::Event::MouseButtonEvent& mouse_button) override;

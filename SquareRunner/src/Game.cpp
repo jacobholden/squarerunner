@@ -43,7 +43,7 @@ void Game::handle_scene_switching()
         }
     }
     
-    load_scene(new LevelScene(WINDOW_WIDTH, WINDOW_HEIGHT));
+    load_scene(new LevelScene(WINDOW_WIDTH, WINDOW_HEIGHT, "01"));
 }
 
 void Game::run()
