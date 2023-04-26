@@ -1,0 +1,52 @@
+﻿#pragma once
+#include <memory>
+#include <string>
+#include <vector>
+#include "../Components/Component.h"
+
+class Entity
+{
+public:
+    void add_component(std::unique_ptr<Component> component);
+
+    template <typename T>
+    T* get_component() const;
+    template <class T>
+    std::vector<T*> get_components() const;
+    std::vector<Component*> get_components() const;
+    void destroy();
+    bool is_destroyed = false;
+    std::string name = "Entity";
+
+private:
+    std::vector<std::unique_ptr<Component>> components_;
+};
+
+template <typename T>
+T* Entity::get_component() const
+{
+    for (const auto& component : components_)
+    {
+        if (auto t = dynamic_cast<T*>(component.get()))
+        {
+            return t;
+        }
+    }
+    return nullptr;
+}
+
+template <typename T>
+std::vector<T*> Entity::get_components() const
+{
+    std::vector<T*> components;
+
+    for (const auto& component : components_)
+    {
+        if (auto t = dynamic_cast<T*>(component.get()))
+        {
+            components.push_back(t);
+        }
+    }
+
+    return components;
+}
