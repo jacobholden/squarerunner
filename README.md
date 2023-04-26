@@ -1,4 +1,4 @@
-# squarerunner
+# Square Runner
 A puzzle game where the player takes control of a yellow smiley face, collects gold and bombs and gets to the exit. Beware of the the red smiley enemies!
 
 ## Controls
