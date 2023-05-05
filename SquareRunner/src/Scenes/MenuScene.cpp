@@ -50,6 +50,11 @@ void MenuScene::on_entity_destroyed(const std::unique_ptr<Entity>& entity)
 {
 }
 
+void MenuScene::update(float delta_time)
+{
+    IScene::update(delta_time);
+}
+
 std::vector<std::string> MenuScene::get_levels()
 {
     const auto list = std::make_unique<std::vector<std::string>>();

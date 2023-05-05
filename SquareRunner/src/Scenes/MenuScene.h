@@ -10,6 +10,7 @@ public:
     void on_mouse_move(const sf::Event::MouseMoveEvent& mouse_move) override;
     void initialise_entities() override;
     void on_entity_destroyed(const std::unique_ptr<Entity>& entity) override;
+    void update(float delta_time) override;
 
 private:
     std::vector<std::string> get_levels();

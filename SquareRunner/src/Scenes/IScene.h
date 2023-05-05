@@ -27,7 +27,7 @@ public:
     void restart_scene();
     bool is_scene_running();
     bool is_scene_restarted();
-    virtual void update(float delta_time);
+    virtual void update(float delta_time) = 0;
 
 protected:
     bool is_restarting_;
