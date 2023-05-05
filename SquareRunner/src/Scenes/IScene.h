@@ -27,7 +27,10 @@ public:
     void restart_scene();
     bool is_scene_running();
     bool is_scene_restarted();
-    void update(float delta_time);
+    virtual void update(float delta_time);
+
+protected:
+    bool is_restarting_;
 
 private:
     // Properties
@@ -38,7 +41,6 @@ private:
     std::vector<std::unique_ptr<Entity>> entities_;
 
     bool scene_running_ = true;
-    bool is_restarting_;
     bool is_restarted_;
     float current_time_until_restart_;
 };

@@ -13,7 +13,12 @@ public:
     void initialise_entities() override;
     void on_mouse_move(const sf::Event::MouseMoveEvent& mouse_move) override;
     void on_entity_destroyed(const std::unique_ptr<Entity>& entity) override;
-    
+    void update(float delta_time) override;
+
     std::array<std::array<bool, 23>, 40> non_walkable_tiles_player_{};
     std::array<std::array<bool, 23>, 40> non_walkable_tiles_enemy_{};
+
+private:
+    bool escape_key_held_ = false;
+    int escape_key_pressed_count_;
 };

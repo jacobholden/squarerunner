@@ -208,3 +208,24 @@ void LevelScene::on_entity_destroyed(const std::unique_ptr<Entity>& entity)
         non_walkable_tiles_enemy_[truncated_position.x][truncated_position.y] = false;
     }
 }
+
+void LevelScene::update(float delta_time)
+{
+    IScene::update(delta_time);
+
+    if(sf::Keyboard::isKeyPressed(sf::Keyboard::Escape) && !escape_key_held_)
+    {
+        escape_key_held_ = true;
+        escape_key_pressed_count_++; 
+    }
+    else if(!sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
+    {
+        escape_key_held_ = false;
+    }
+
+    if(escape_key_pressed_count_ >= 2)
+    {
+        is_restarting_ = false;
+        end_scene();
+    }
+}

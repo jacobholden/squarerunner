@@ -43,6 +43,11 @@ void ExplosionBlueprint::build_blueprint()
         {
             if(other_entity->get_component<Destructible>())
             {
+                if(other_entity->name == "player")
+                {
+                    Game::get_current_scene()->restart_scene();
+                }
+            
                 other_entity->destroy();
             }
 
