@@ -25,7 +25,7 @@ void EnemyController::handle_movement()
 
     if(animator->is_playing())
     {
-        return; 
+        return;
     }
 
     auto current_position = entity->get_component<MyTransform>()->position;
@@ -43,13 +43,13 @@ void EnemyController::handle_movement()
     {
         current_direction_ = sf::Vector2i(-current_direction_.x, -current_direction_.y);
     }
-    else if(non_walkable_tiles_[leftTilePos.x][leftTilePos.y])
+    else if(non_walkable_tiles_[rightTilePos.x][rightTilePos.y])
     {
-        current_direction_ = sf::Vector2i(current_direction_.y, -current_direction_.x);
+        current_direction_ = sf::Vector2i(-current_direction_.y, current_direction_.x);
     }
     else
     {
-        current_direction_ = sf::Vector2i(-current_direction_.y, current_direction_.x);
+        current_direction_ = sf::Vector2i(current_direction_.y, -current_direction_.x);
     }
 }
 

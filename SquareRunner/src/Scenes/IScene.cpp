@@ -65,7 +65,31 @@ void IScene::end_scene()
     scene_running_ = false;
 }
 
+void IScene::restart_scene()
+{
+    is_restarting_ = true;
+}
+
 bool IScene::is_scene_running()
 {
     return scene_running_;
+}
+
+bool IScene::is_scene_restarted()
+{
+    return is_restarted_;
+}
+
+void IScene::update(float delta_time)
+{
+    if(is_restarting_)
+    {
+        current_time_until_restart_ += delta_time;
+
+        if(current_time_until_restart_ >= 2.0)
+        {
+            is_restarted_ = true;
+            scene_running_ = false;
+        }
+    }
 }

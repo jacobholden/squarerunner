@@ -9,8 +9,9 @@
 #include "Components/MyRender.h"
 #include "Components/MyTransform.h"
 #include "Managers/InputManager.h"
-#include "Managers/TextureManager.h"
+#include "Managers/AssetManager.h"
 #include "Scenes/LevelScene.h"
+#include "Scenes/MenuScene.h"
 
 const int WINDOW_WIDTH = 1280;
 const int WINDOW_HEIGHT = 736;
@@ -18,6 +19,8 @@ const int TARGET_FPS = 60;
 const sf::Time UPDATE_INTERVAL = sf::seconds(1.0f / TARGET_FPS);
 
 IScene* Game::scene_ = nullptr;
+
+std::string Game::current_level_name_ = "";
 
 Game::Game()
 {
@@ -35,6 +38,22 @@ void Game::handle_scene_switching()
     {
         if(!scene_->is_scene_running())
         {
+            if(scene_->is_scene_restarted())
+            {
+                delete scene_;
+                
+                load_scene(new LevelScene(WINDOW_WIDTH, WINDOW_HEIGHT, current_level_name_));
+
+                return;
+            }
+
+            if(dynamic_cast<MenuScene*>(scene_))
+            {
+                load_scene(new LevelScene(WINDOW_WIDTH, WINDOW_HEIGHT, current_level_name_));
+
+                return;
+            }
+            
             delete scene_;
         }
         else
@@ -42,8 +61,12 @@ void Game::handle_scene_switching()
             return;
         }
     }
+
+    load_scene(new MenuScene(WINDOW_WIDTH, WINDOW_HEIGHT));
+
+    // current_level_index_ ++;
     
-    load_scene(new LevelScene(WINDOW_WIDTH, WINDOW_HEIGHT, "01"));
+    // load_scene(new LevelScene(WINDOW_WIDTH, WINDOW_HEIGHT, level_list_[current_level_index_]));
 }
 
 void Game::run()
@@ -96,8 +119,15 @@ void Game::run()
 
         update_and_render(delta_time);
 
+        scene_->update(delta_time);
+
         window_.display();
     }
+}
+
+void Game::set_level_name(std::string level_name)
+{
+    current_level_name_ = level_name;
 }
 
 void Game::update_and_render(float delta_time)

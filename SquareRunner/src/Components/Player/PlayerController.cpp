@@ -8,6 +8,8 @@
 #include "../../Game.h"
 #include "../../Entities/Entity.h"
 #include "../../Entities/Blueprints/BombIgnitedBlueprint.h"
+#include "../../Entities/Blueprints/ExplosionBlueprint.h"
+#include "../../Managers/SoundManager.h"
 
 const float MOVEMENT_SPEED = 0.15f;
 
@@ -75,10 +77,35 @@ void PlayerController::handle_bomb_input()
         is_space_held_ = true;
 
         bomb_count_ --;
+
+        SoundManager::play_sound("ignite");
     }
     else if(!sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
     {
         is_space_held_ = false;
+    }
+}
+
+void PlayerController::handle_suicide_input()
+{
+    if(sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
+    {
+        entity->destroy();
+
+        auto player_position = entity->get_component<MyTransform>()->position;
+        auto top_left_explosion_position = sf::Vector2f(player_position.x - 32, player_position.y - 32);
+
+        for(int i = 0; i < 3; i ++)
+        {
+            for(int j = 0; j < 3; j ++)
+            {
+                Game::get_current_scene()->create_entity(new ExplosionBlueprint(sf::Vector2f(top_left_explosion_position.x + i * 32, top_left_explosion_position.y + j * 32)));
+            }
+        }
+
+        SoundManager::play_sound("explosion");
+
+        Game::get_current_scene()->restart_scene();
     }
 }
 
@@ -87,6 +114,8 @@ void PlayerController::update(float delta_time)
     handle_movement_input();
 
     handle_bomb_input();
+    
+    handle_suicide_input();
 }
 
 PlayerController::~PlayerController()

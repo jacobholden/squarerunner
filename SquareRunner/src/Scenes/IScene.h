@@ -24,7 +24,10 @@ public:
     virtual void on_entity_destroyed(const std::unique_ptr<Entity>& entity) = 0;
     
     void end_scene();
+    void restart_scene();
     bool is_scene_running();
+    bool is_scene_restarted();
+    void update(float delta_time);
 
 private:
     // Properties
@@ -35,4 +38,7 @@ private:
     std::vector<std::unique_ptr<Entity>> entities_;
 
     bool scene_running_ = true;
+    bool is_restarting_;
+    bool is_restarted_;
+    float current_time_until_restart_;
 };

@@ -3,7 +3,7 @@
 #include "../../Components/FrameSequenceAnimation.h"
 #include "../../Components/MyRender.h"
 #include "../../Components/MyTransform.h"
-#include "../../Managers/TextureManager.h"
+#include "../../Managers/AssetManager.h"
 #include "../../Components/CircleCollidier.h"
 #include "../../Game.h"
 #include "../../Components/Destructible.h"
@@ -24,7 +24,7 @@ void ExplosionBlueprint::build_blueprint()
     });
     add_component<MyRender>([this](MyRender& component)
     {
-        component.drawable = std::make_unique<sf::Sprite>(*TextureManager::get_texture("explosion"));
+        component.drawable = std::make_unique<sf::Sprite>(*AssetManager::get_texture("explosion"));
         component.z_order = 2;
     });
     add_component<FrameSequenceAnimation>([this](FrameSequenceAnimation& component)

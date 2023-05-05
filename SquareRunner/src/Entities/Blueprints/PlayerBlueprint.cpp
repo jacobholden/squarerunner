@@ -7,7 +7,7 @@
 #include "../../Components/MyRender.h"
 #include "../../Components/MyTransform.h"
 #include "../../Components/Player/PlayerController.h"
-#include "../../Managers/TextureManager.h"
+#include "../../Managers/AssetManager.h"
 #include "../../Game.h"
 #include "../../Components/Destructible.h"
 #include "../../Managers/SoundManager.h"
@@ -26,7 +26,7 @@ void PlayerBlueprint::build_blueprint()
     });
     add_component<MyRender>([this](MyRender& component)
     {
-        component.drawable = std::make_unique<sf::Sprite>(*TextureManager::get_texture("player_up"));
+        component.drawable = std::make_unique<sf::Sprite>(*AssetManager::get_texture("player_up"));
         component.z_order = 1;
     });
     add_component<Animator>();
@@ -55,12 +55,16 @@ void PlayerBlueprint::build_blueprint()
                 }
 
                 SoundManager::play_sound("explosion");
+
+                Game::get_current_scene()->restart_scene();
             }
 
             if(other_entity->name == "gold")
             {
                 other_entity->destroy();
                 entity->get_component<PlayerController>()->add_gold_count();
+
+                SoundManager::play_sound("gold_pickup");
             }
 
             if(other_entity->name == "bomb")
@@ -68,11 +72,15 @@ void PlayerBlueprint::build_blueprint()
                 entity->get_component<PlayerController>()->add_bomb_count();
                 
                 other_entity->destroy();
+
+                SoundManager::play_sound("bomb_pickup");
             }
 
             if(other_entity->name == "dirt")
             {
                 other_entity->destroy();
+
+                SoundManager::play_sound("dirt");
             }
 
             if(other_entity->name == "exit")
@@ -81,6 +89,8 @@ void PlayerBlueprint::build_blueprint()
                 {
                     Game::get_current_scene()->create_entity(new PlayerEscapeBlueprint(other_entity->get_component<MyTransform>()->position));
                     entity->destroy();
+
+                    SoundManager::play_sound("exit");
                 }
             }
         };

@@ -4,17 +4,18 @@
 #include <SFML/Audio/Sound.hpp>
 #include <SFML/Audio/SoundBuffer.hpp>
 
-#include "SoundManager.h"
+const static std::string sfx_location = "Assets/sfx/";
 
 class SoundManager final
 {
 public:
-    bool static define_sound(std::string file_path, std::string sound_name, bool is_looping = false);
-    void static play_sound(std::string sound_name);
+    static bool define_sound(std::string file_path, std::string sound_name, bool is_looping = false);
+    static void play_sound(std::string sound_name);
 
 private:
-    SoundManager();
-    ~SoundManager();
-    std::map<std::string, sf::Sound*> static sounds_;
-    sf::SoundBuffer static sound_buffer_;
+    SoundManager() = delete;
+    ~SoundManager() = delete;
+
+    static std::map<std::string, sf::Sound*> sounds_;
+    static std::map<std::string, sf::SoundBuffer*> sound_buffers_;
 };

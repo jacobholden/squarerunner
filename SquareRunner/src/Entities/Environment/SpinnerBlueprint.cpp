@@ -4,7 +4,7 @@
 #include "../../Components/MyTransform.h"
 #include "../../Components/MyRender.h"
 #include "../../Components/NonWalkable.h"
-#include "../../Managers/TextureManager.h"
+#include "../../Managers/AssetManager.h"
 
 SpinnerBlueprint::SpinnerBlueprint(sf::Vector2f position)
 {
@@ -19,7 +19,7 @@ void SpinnerBlueprint::build_blueprint()
     });
     add_component<MyRender>([this](MyRender& component)
     {
-        component.drawable = std::make_unique<sf::Sprite>(*TextureManager::get_texture("spinner"));
+        component.drawable = std::make_unique<sf::Sprite>(*AssetManager::get_texture("spinner"));
     });
     add_component<FrameSequenceAnimation>([this](FrameSequenceAnimation& component)
     {

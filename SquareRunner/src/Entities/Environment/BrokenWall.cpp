@@ -5,7 +5,7 @@
 #include "../../Components/MyTransform.h"
 #include "../../Components/MyRender.h"
 #include "../../Components/NonWalkable.h"
-#include "../../Managers/TextureManager.h"
+#include "../../Managers/AssetManager.h"
 
 BrokenWall::BrokenWall(sf::Vector2f position)
 {
@@ -20,7 +20,7 @@ void BrokenWall::build_blueprint()
     });
     add_component<MyRender>([this](MyRender& component)
     {
-        component.drawable = std::make_unique<sf::Sprite>(*TextureManager::get_texture("broken_wall"));
+        component.drawable = std::make_unique<sf::Sprite>(*AssetManager::get_texture("broken_wall"));
     });
     add_component<NonWalkable>();
     add_component<CircleCollidier>([this](CircleCollidier& component)

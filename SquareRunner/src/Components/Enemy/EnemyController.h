@@ -3,7 +3,7 @@
 #include <map>
 
 #include "../IUpdateable.h"
-#include "../../Managers/TextureManager.h"
+#include "../../Managers/AssetManager.h"
 
 class EnemyController : public IUpdateable
 {
@@ -28,14 +28,13 @@ private:
         Down
     };
 
-
     std::array<std::array<bool, 23>, 40> non_walkable_tiles_{};
     std::map<Direction, sf::Texture> textures_ =
         {
-        {Left, *TextureManager::get_texture("enemy_left")},
-        {Right, *TextureManager::get_texture("enemy_right")},
-        {Up, *TextureManager::get_texture("enemy_up")},
-        {Down, *TextureManager::get_texture("enemy_down")},
+        {Left, *AssetManager::get_texture("enemy_left")},
+        {Right, *AssetManager::get_texture("enemy_right")},
+        {Up, *AssetManager::get_texture("enemy_up")},
+        {Down, *AssetManager::get_texture("enemy_down")},
         };
     void update_texture();
     void move();

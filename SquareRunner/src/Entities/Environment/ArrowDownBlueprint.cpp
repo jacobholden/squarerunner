@@ -4,7 +4,7 @@
 #include "../../Components/MyTransform.h"
 #include "../../Components/MyRender.h"
 #include "../../Components/NonWalkable.h"
-#include "../../Managers/TextureManager.h"
+#include "../../Managers/AssetManager.h"
 
 ArrowDownBlueprint::ArrowDownBlueprint(sf::Vector2f position)
 {
@@ -19,7 +19,7 @@ void ArrowDownBlueprint::build_blueprint()
     });
     add_component<MyRender>([this](MyRender& component)
     {
-        component.drawable = std::make_unique<sf::Sprite>(*TextureManager::get_texture("arrow_down"));
+        component.drawable = std::make_unique<sf::Sprite>(*AssetManager::get_texture("arrow_down"));
     });
     add_component<FrameSequenceAnimation>([this](FrameSequenceAnimation& component)
     {

@@ -4,13 +4,14 @@
 #include <SFML/Graphics/Texture.hpp>
 
 #include "../IUpdateable.h"
-#include "../../Managers/TextureManager.h"
+#include "../../Managers/AssetManager.h"
 
 class PlayerController : public IUpdateable
 {
 public:
     void handle_movement_input();
     void handle_bomb_input();
+    void handle_suicide_input();
     void update(float delta_time) override;
     void set_non_walkable_tiles(std::array<std::array<bool, 23>, 40> tiles)
     {
@@ -27,10 +28,10 @@ public:
 private:
     std::map<int, sf::Texture> textures_ =
         {
-        {0, *TextureManager::get_texture("player_left")},
-        {1, *TextureManager::get_texture("player_right")},
-        {2, *TextureManager::get_texture("player_up")},
-        {3, *TextureManager::get_texture("player_down")},
+        {0, *AssetManager::get_texture("player_left")},
+        {1, *AssetManager::get_texture("player_right")},
+        {2, *AssetManager::get_texture("player_up")},
+        {3, *AssetManager::get_texture("player_down")},
         };
 
     std::array<std::array<bool, 23>, 40> non_walkable_tiles_{};

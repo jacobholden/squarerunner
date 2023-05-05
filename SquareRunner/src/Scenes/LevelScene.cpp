@@ -38,7 +38,7 @@ LevelScene::~LevelScene()
 
 bool LevelScene::load_level(std::string level_name)
 {
-    std::ifstream input_file("Assets/levels/" + level_name + ".txt");
+    std::ifstream input_file("Assets/levels/" + level_name);
 
     if (!input_file.is_open())
     {

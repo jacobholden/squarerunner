@@ -7,7 +7,7 @@
 #include "../../Components/MyTransform.h"
 #include "../../Components/MyRender.h"
 #include "../../Components/NonWalkable.h"
-#include "../../Managers/TextureManager.h"
+#include "../../Managers/AssetManager.h"
 
 TntBlueprint::TntBlueprint(sf::Vector2f position)
 {
@@ -23,7 +23,7 @@ void TntBlueprint::build_blueprint()
     });
     add_component<MyRender>([this](MyRender& component)
     {
-        component.drawable = std::make_unique<sf::Sprite>(*TextureManager::get_texture("tnt"));
+        component.drawable = std::make_unique<sf::Sprite>(*AssetManager::get_texture("tnt"));
     });
     add_component<Flammable>();
     add_component<CircleCollidier>([this](CircleCollidier& component)

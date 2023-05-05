@@ -3,7 +3,7 @@
 #include "../../Components/FrameSequenceAnimation.h"
 #include "../../Components/MyRender.h"
 #include "../../Components/MyTransform.h"
-#include "../../Managers/TextureManager.h"
+#include "../../Managers/AssetManager.h"
 #include "../../Components/Animator.h"
 #include "../../Components/Enemy/EnemyController.h"
 #include "../../Components/CircleCollidier.h"
@@ -25,7 +25,7 @@ void EnemyBlueprint::build_blueprint()
     });
     add_component<MyRender>([this](MyRender& component)
     {
-        component.drawable = std::make_unique<sf::Sprite>(*TextureManager::get_texture("enemy_left"));
+        component.drawable = std::make_unique<sf::Sprite>(*AssetManager::get_texture("enemy_left"));
         component.z_order = 1;
     });
     add_component<FrameSequenceAnimation>([this](FrameSequenceAnimation& component)
